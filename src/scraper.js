@@ -23,30 +23,44 @@ const fs = require("fs");
       "jobs-search__results-list"
     );
 
-    // Job Title
-    // Company Name
-    // Job Location
+    // Job ID
+    // Job Title (Done)
+    // Company Name (Done)
+    // Company Logo (Done)
+    // Job Location (Done)
     // Job Description
-    // Job Post Date
+    // Job Post Date (Done)
     // Skills Needed
-    // Application Link
+    // Application Link (Done)
     Array.from(jobElements[0].children).forEach((jobElement, index) => {
       const child = jobElement.children[0];
-      // console.log(child);
       const jobCard = child.querySelector(".base-card__full-link");
+
+      // Application Link
       const jobLink = jobCard?.href;
 
+      // Job ID
+
+      // Company Logo
       const jobLogo = child.querySelector(".artdeco-entity-image");
       const imageURL = index > 5 ? jobLogo.dataset.delayedUrl : jobLogo.src;
+
+      // Job Title
       const jobTitle = child.querySelector(
         ".base-search-card__title"
       ).innerText;
+
+      // Company Name
       const jobCompany = child.querySelector(
         ".base-search-card__subtitle"
       ).innerText;
+
+      // Job Location
       const jobLocation = child.querySelector(
         ".job-search-card__location"
       ).innerText;
+
+      // Job Date
       const jobDate =
         child.querySelector(".job-search-card__listdate") ??
         child.querySelector(".job-search-card__listdate--new");
@@ -64,9 +78,9 @@ const fs = require("fs");
     return jobs;
   });
 
-  // fs.writeFileSync("jobs.json", JSON.stringify(jobData, null, 2), "utf-8");
+  fs.writeFileSync("jobs.json", JSON.stringify(jobData, null, 2), "utf-8");
 
-  // await browser.close();
+  await browser.close();
 })().catch((error) => {
   console.error(error);
   process.exit(1);
