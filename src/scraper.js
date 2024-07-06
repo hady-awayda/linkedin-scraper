@@ -15,7 +15,7 @@ const fs = require("fs");
     )}`,
     { waitUntil: "networkidle2" }
   );
-  await page.setViewport({ width: 1200, height: 1024 });
+  await page.setViewport({ width: 1200, height: 736 });
 
   const jobData = await page.evaluate(() => {
     const jobs = [];
@@ -23,15 +23,6 @@ const fs = require("fs");
       "jobs-search__results-list"
     );
 
-    // Job ID
-    // Job Title (Done)
-    // Company Name (Done)
-    // Company Logo (Done)
-    // Job Location (Done)
-    // Job Description
-    // Job Post Date (Done)
-    // Skills Needed
-    // Application Link (Done)
     Array.from(jobElements[0].children).forEach((jobElement, index) => {
       const child = jobElement.children[0];
       const jobCard = child.querySelector(".base-card__full-link");
@@ -65,14 +56,16 @@ const fs = require("fs");
         child.querySelector(".job-search-card__listdate") ??
         child.querySelector(".job-search-card__listdate--new");
 
-      // jobs.push({
-      //   jobTitle,
-      //   companyName,
-      //   jobLocation,
-      //   jobDescription,
-      //   jobPostDate,
-      //   applicationLink,
-      // });
+      console.log(jobDate);
+
+      jobs.push({
+        jobLink,
+        imageURL,
+        jobTitle,
+        jobCompany,
+        jobLocation,
+        jobDate: jobDate.innerText,
+      });
     });
 
     return jobs;
@@ -80,8 +73,18 @@ const fs = require("fs");
 
   fs.writeFileSync("jobs.json", JSON.stringify(jobData, null, 2), "utf-8");
 
-  await browser.close();
+  // await browser.close();
 })().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
+// Job ID
+// Job Title (Done)
+// Company Name (Done)
+// Job Location (Done)
+// Job Description
+// Job Post Date (Done)
+// Skills Needed
+// Application Link (Done)
+// Company Logo (Done)
